@@ -4,11 +4,11 @@ Frontal que funciona con [Escuela-backend](https://github.com/aaron-velasco/Escu
 
 ## Requerimientos 
 
-Tener instalado [Node JS](https://nodejs.org/en/) y [Yarn](https://yarnpkg.com/getting-started/install)
+1. Tener instalado [Node JS](https://nodejs.org/en/) y [Yarn](https://yarnpkg.com/getting-started/install)
 
-Configurar la url de la API en el archivo .env en la variable REACT_APP_API_URL
+2. Configurar la url de la API en el archivo .env en la variable REACT_APP_API_URL
 
-Instalar las dependencias con
+3. Instalar las dependencias con
 
 ```ssh
 yarn install
