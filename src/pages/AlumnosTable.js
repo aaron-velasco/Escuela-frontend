@@ -34,7 +34,7 @@ function AlumnosTable() {
           setLoading("")
         ))
         .catch((error) => setLoading('Error al conectarse con la API'))
-  });
+  },[]);
 
   return (
     <div className="bg-white rounded-lg shadow-md lg:shadow-lg h-screen">
