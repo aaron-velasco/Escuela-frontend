@@ -14,7 +14,11 @@ function AlumnoShow() {
   })
 
   return (
-    <div>
+    <div className="bg-white rounded-lg shadow-md lg:shadow-lg h-screen">
+      <h2 className="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
+        Mostrar alumno
+      </h2>
+      <br/>
       <p>UUID: {alumno.uuid}</p>
       <p>Nombre: {alumno.nombre}</p>
       <p>Apellidos: {alumno.apellidos}</p>
