@@ -5,8 +5,11 @@ function AlumnosTableRow(props) {
     const [editMenu, setEditMenu] = useState("");
 
     useEffect(() => {
-        if(localStorage.getItem('logged_in') === true){
-        setEditMenu(<Link to={ `/alumno/${props.alumno.uuid}/edit/` } className="text-yellow-600 underline">Editar</Link>)}
+        if(localStorage.getItem('logged_in') === 'true'){
+        setEditMenu([<Link to={ `/alumno/${props.alumno.uuid}/edit/` } className="text-yellow-600 underline">Editar</Link>,<br/>,
+        <Link to={ `/alumno/${props.alumno.uuid}/delete/` } className="text-red-600 underline">Borrar</Link>
+    ]
+);}
     },[])
    
     return (

@@ -8,7 +8,7 @@ function AlumnosTable() {
   const [menuHead, setMenuHead] = useState("");
 
   useEffect(() => {
-    if(localStorage.getItem('logged_in') !== true){
+    if(localStorage.getItem('logged_in') !== 'true'){
       setMenuHead(<Link className="text-blue-600 underline" to="/login">Iniciar sesión</Link>)
     } else {
       setMenuHead(<Link className="text-blue-600 underline" to="/alumno/create">Crear alumno</Link>)
