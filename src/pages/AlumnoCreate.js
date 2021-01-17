@@ -34,7 +34,7 @@ function AlumnoCreate() {
   // Gestión del envío de la información del formulario a la API
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("enviando datos..." + JSON.stringify(alumnoData));
+    setMessage('Enviando petición')
     fetch(`${process.env.REACT_APP_API_URL}/alumno`, {
       method: "post",
       body: JSON.stringify(alumnoData),
@@ -68,7 +68,7 @@ function AlumnoCreate() {
         setMessage("Alumno creado correctamente");
         history.push("/");
       })
-      .catch((error) => console.log("Error", error));
+      .catch((error) => setMessage('Error al crear alumno'));
   };
 
   return (
