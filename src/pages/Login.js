@@ -1,44 +1,51 @@
-import {React, useState} from "react";
+import { React, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 function Login(props) {
-
-  const [loginData, setLoginData] = useState({email: '', password: ''});
-  const [message, setMessage] = useState('');
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
   const history = useHistory();
-  
-  if(localStorage.getItem('logged_in') === 'true')
-    history.push("/");
+
+  if (localStorage.getItem("logged_in") === "true") history.push("/");
 
   const handleInputChange = (event) => {
     // console.log(event.target.name)
     // console.log(event.target.value)
     setLoginData({
-        ...loginData,
-        [event.target.name] : event.target.value
+      ...loginData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const setToken = (token) => {
+    localStorage.setItem("api_token", token);
+    localStorage.setItem("logged_in", true);
+    setMessage("Login realizado correctamente");
+    history.push("/");
+  };
+
+  const enviarDatos = (event) => {
+    event.preventDefault();
+    console.log("enviando datos..." + JSON.stringify(loginData));
+    fetch("http://localhost:8000/api/auth/signin", {
+      method: "post",
+      body: JSON.stringify(loginData),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
     })
-}
-
-const setToken = (token) => {
-  localStorage.setItem('api_token',token)
-  localStorage.setItem('logged_in',true)
-  setMessage('Login realizado correctamente')
-  history.push("/");
-}
-
-const enviarDatos = (event) => {
-  event.preventDefault()
-  console.log('enviando datos...' + JSON.stringify(loginData))
-  fetch("http://localhost:8000/api/auth/signin", {
-    method: 'post',
-    body: JSON.stringify(loginData),
-    headers: {"Content-type": "application/json; charset=UTF-8"}
-  })
-      .then((response) => (response.json()))
-      .then((data) => data.access_token ? setToken(data.access_token) : setMessage('Error al hacer login'))
+      .then((response) => {
+        setMessage("Enviando petición");
+        response.json();
+      })
+      .then((data) => {
+        if (data.access_token) {
+          setToken(data.access_token);
+          setMessage("");
+        } else {
+          setMessage("Error al hacer login");
+        }
+      })
       .catch((error) => console.log(error));
- 
-}
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -103,10 +110,7 @@ const enviarDatos = (event) => {
             </button>
 
             <div className="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-
-              <Link to="/create-account" >
-                Crear cuenta
-              </Link>
+              <Link to="/register">Crear cuenta</Link>
             </div>
           </form>
         </div>
