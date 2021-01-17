@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 function AlumnosTableRow(props) {
     let edit = ''
     if(localStorage.getItem('logged_in'))
-         edit = <Link to={ `/alumno/edit/${props.alumno.uuid}` } className="text-yellow-600 underline">Editar</Link>
+         edit = <Link to={ `/alumno/${props.alumno.uuid}/edit/` } className="text-yellow-600 underline">Editar</Link>
     return (
         <tr className="shadow-sm">
             <td className="px-16 py-2">{props.alumno.uuid}</td>
