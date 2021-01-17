@@ -4,7 +4,6 @@ import {Link} from "react-router-dom"
 
 function AlumnosTableRow(props) {
     return (
-        <>
         <tr>
             <td>{props.alumno.uuid}</td>
             <td>{props.alumno.nombre}</td>
@@ -14,7 +13,6 @@ function AlumnosTableRow(props) {
             <td>{props.alumno.codigo_postal}</td>
             <td>{props.alumno.curso}</td>
         </tr>
-        </>
     )
 }
 
