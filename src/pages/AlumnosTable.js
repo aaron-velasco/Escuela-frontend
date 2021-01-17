@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import AlumnosTableRow from "./AlumnosTableRow";
+import AlumnosTableRow from "../components/AlumnosTableRow";
 import { Link } from "react-router-dom";
 
 function AlumnosTable() {
@@ -7,6 +7,16 @@ function AlumnosTable() {
   const [loading, setLoading] = useState("Cargando");
   var menuHead = "";
   if(localStorage.getItem('logged_in')){
+    fetch(`${process.env.REACT_APP_API_URL}/auth/user`,{
+      method: 'get',
+      headers: {
+        "Content-type": "application/json", 
+        "Authorization" : `Bearer ${localStorage.getItem('api_token')}`
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => (data))
+        .catch((error) => localStorage.setItem('logged_in',false))
     menuHead = <div>
         <Link className="text-blue-600 underline" to="/alumno/create"> Crear alumno </Link>
     </div>

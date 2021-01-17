@@ -1,9 +1,9 @@
 import './App.css';
 import './tailwind.css';
-import Login from './components/Login'
-import AlumnosTable from './components/AlumnosTable'
-import Alumno from './components/Alumno'
-import AlumnoCreate from './components/AlumnoCreate'
+import Login from './pages/Login'
+import AlumnosTable from './pages/AlumnosTable'
+import Alumno from './pages/Alumno'
+import AlumnoCreate from './pages/AlumnoCreate'
 import {
   BrowserRouter as Router,
   Switch,
