@@ -2,46 +2,49 @@ import { React, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 function Login(props) {
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [loginData, setLoginData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const [hasErrors, setHasErrors] = useState(false);
   const [message, setMessage] = useState("");
   const history = useHistory();
 
-  if (localStorage.getItem("logged_in") === "true") history.push("/");
-
   const handleInputChange = (event) => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
     setLoginData({
       ...loginData,
       [event.target.name]: event.target.value,
     });
   };
 
-  const setToken = (token) => {
-    localStorage.setItem("api_token", token);
-    localStorage.setItem("logged_in", true);
-    setMessage("Login realizado correctamente");
-    history.push("/");
-  };
-
   const enviarDatos = (event) => {
     event.preventDefault();
     console.log("enviando datos..." + JSON.stringify(loginData));
-    fetch("http://localhost:8000/api/auth/signin", {
+    fetch("http://localhost:8000/api/auth/signup", {
       method: "post",
       body: JSON.stringify(loginData),
       headers: { "Content-type": "application/json; charset=UTF-8" },
     })
       .then((response) => {
-        setMessage("Enviando petición");
-        response.json();
+        if (!response.ok) {
+          setHasErrors(true);
+        }
+        return response.json();
       })
       .then((data) => {
-        if (data.access_token) {
-          setToken(data.access_token);
-          setMessage("");
+        if (!hasErrors) {
+          setMessage("Usuario registrado correctamente");
         } else {
-          setMessage("Error al hacer login");
+          setMessage("Error al registrar al usuario, puede que el usuario ya exista");
+          setFormErrors(data);
         }
       })
       .catch((error) => console.log(error));
@@ -61,6 +64,27 @@ function Login(props) {
 
           <form className="mt-10" onSubmit={enviarDatos}>
             <label
+              htmlFor="name"
+              className="block text-xs font-semibold text-gray-600 uppercase"
+            >
+              Nombre
+            </label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              placeholder="nombre"
+              autoComplete="name"
+              className="block w-full py-3 px-1 mt-2 
+                    text-gray-800 appearance-none 
+                    border-b-2 border-gray-100
+                    focus:text-gray-500 focus:outline-none focus:border-gray-200"
+              value={loginData.name}
+              onChange={handleInputChange}
+            />
+            <small>{formErrors.nombre}</small>
+            <br />
+            <label
               htmlFor="email"
               className="block text-xs font-semibold text-gray-600 uppercase"
             >
@@ -79,7 +103,8 @@ function Login(props) {
               value={loginData.email}
               onChange={handleInputChange}
             />
-
+            <small>{formErrors.email}</small>
+            <br />
             <label
               htmlFor="password"
               className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
@@ -91,7 +116,6 @@ function Login(props) {
               type="password"
               name="password"
               placeholder="password"
-              autoComplete="current-password"
               className="block w-full py-3 px-1 mt-2 mb-4
                     text-gray-800 appearance-none 
                     border-b-2 border-gray-100
@@ -99,6 +123,28 @@ function Login(props) {
               value={loginData.password}
               onChange={handleInputChange}
             />
+            <small>{formErrors.password}</small>
+            <br />
+            <label
+              htmlFor="password_confirmation"
+              className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+            >
+              Confirmación de contraseña
+            </label>
+            <input
+              id="password_confirmation"
+              type="password"
+              name="password_confirmation"
+              placeholder="password"
+              className="block w-full py-3 px-1 mt-2 mb-4
+                    text-gray-800 appearance-none 
+                    border-b-2 border-gray-100
+                    focus:text-gray-500 focus:outline-none focus:border-gray-200"
+              value={loginData.password_confirmation}
+              onChange={handleInputChange}
+            />
+            <small>{formErrors.password_confirmation}</small>
+            <br />
             {message}
             <button
               type="submit"
@@ -108,10 +154,6 @@ function Login(props) {
             >
               Login
             </button>
-
-            <div className="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-              <Link to="/register">Crear cuenta</Link>
-            </div>
           </form>
         </div>
       </div>
