@@ -1,24 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import './tailwind.css';
+import Login from './pages/Login'
+import AlumnosTable from './pages/AlumnosTable'
+import AlumnoShow from './pages/AlumnoShow'
+import AlumnoCreate from './pages/AlumnoCreate'
+import AlumnoEdit from './pages/AlumnoEdit'
+import AlumnoDelete from './pages/AlumnoDelete'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App container mx-auto">
+      <Switch>
+          <Route path="/login"  component={Login} />
+          <Route exact path="/" component={AlumnosTable} />
+          <Route exact path="/alumno/create"  component={AlumnoCreate} />
+          <Route exact path="/alumno/:id"     component={AlumnoShow} />
+          <Route exact path="/alumno/:id/edit" component={AlumnoEdit} />
+          <Route exact path="/alumno/:id/delete" component={AlumnoDelete} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
