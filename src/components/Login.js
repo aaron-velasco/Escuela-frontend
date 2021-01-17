@@ -7,7 +7,7 @@ function Login(props) {
   const [message, setMessage] = useState('');
   const history = useHistory();
   
-  if(localStorage.getItem('logged_in'))
+  if(localStorage.getItem('logged_in') === true)
     history.push("/");
 
   const handleInputChange = (event) => {
@@ -41,7 +41,7 @@ const enviarDatos = (event) => {
 }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="flex flex-col h-screen">
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
