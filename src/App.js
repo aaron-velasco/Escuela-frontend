@@ -18,7 +18,7 @@ function App() {
       <div className="App container mx-auto">
       <Switch>
           <Route path="/login"  component={Login} />
-          <Route path="/alumno/:id"  component={Alumno} />
+          <Route exact path="/alumno/:id"  component={Alumno} />
           <Route exact path="/" component={AlumnosTable} />
         </Switch>
       </div>
