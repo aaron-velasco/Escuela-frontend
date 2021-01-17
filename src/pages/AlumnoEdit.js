@@ -8,7 +8,7 @@ function AlumnoCreate() {
   const history = useHistory();
 
   // Checkear si está logeado
-  if(localStorage.getItem('logged_in') !== true)
+  if(localStorage.getItem('logged_in') !== 'true')
     history.push("/");
 
   // Estado
