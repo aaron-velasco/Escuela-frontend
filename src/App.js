@@ -2,7 +2,7 @@ import './App.css';
 import './tailwind.css';
 import Login from './pages/Login'
 import AlumnosTable from './pages/AlumnosTable'
-import Alumno from './pages/Alumno'
+import AlumnoShow from './pages/AlumnoShow'
 import AlumnoCreate from './pages/AlumnoCreate'
 import {
   BrowserRouter as Router,
@@ -17,7 +17,7 @@ function App() {
       <Switch>
           <Route path="/login"  component={Login} />
           <Route exact path="/alumno/create"  component={AlumnoCreate} />
-          <Route exact path="/alumno/:id"     component={Alumno} />
+          <Route exact path="/alumno/:id"     component={AlumnoShow} />
           <Route exact path="/" component={AlumnosTable} />
         </Switch>
       </div>

@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 
-function Alumno() {
+function AlumnoShow() {
   let { id } = useParams();
 
   const [alumno, setAlumno] = useState([]);
@@ -28,4 +28,4 @@ function Alumno() {
   );
 }
 
-export default Alumno;
+export default AlumnoShow;
