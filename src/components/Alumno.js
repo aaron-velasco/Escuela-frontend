@@ -8,7 +8,7 @@ function Alumno() {
   const [alumno, setAlumno] = useState([]);
 
   useEffect(() => {
-  fetch(`http://localhost:8000/api/alumno?uuid=${id}`)
+  fetch(`${process.env.REACT_APP_API_URL}/alumno?uuid=${id}`)
   .then((response) => response.json())
   .then((data) => setAlumno(data));
   })

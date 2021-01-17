@@ -8,7 +8,7 @@ function AlumnosTable() {
   var msg = "";
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/alumnos")
+    fetch(`${process.env.REACT_APP_API_URL}/alumnos`)
       .then((response) => response.json())
       .then((data) =>
         setAlumnos(
@@ -16,8 +16,8 @@ function AlumnosTable() {
             <AlumnosTableRow key={alumno.uuid} alumno={alumno} />
           )),
           setLoading("")
-        )
-      );
+        ))
+        .catch((error) => setLoading('Error al conectarse con la API'))
   });
 
   return (
