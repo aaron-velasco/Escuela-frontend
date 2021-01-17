@@ -1,6 +1,7 @@
 import './App.css';
 import './tailwind.css';
 import Login from './pages/Login'
+import Register from './pages/Register'
 import AlumnosTable from './pages/AlumnosTable'
 import AlumnoShow from './pages/AlumnoShow'
 import AlumnoCreate from './pages/AlumnoCreate'
@@ -18,6 +19,7 @@ function App() {
       <div className="App container mx-auto">
       <Switch>
           <Route path="/login"  component={Login} />
+          <Route path="/register"  component={Register} />
           <Route exact path="/" component={AlumnosTable} />
           <Route exact path="/alumno/create"  component={AlumnoCreate} />
           <Route exact path="/alumno/:id"     component={AlumnoShow} />
