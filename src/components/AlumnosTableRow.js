@@ -7,7 +7,7 @@ function AlumnosTableRow(props) {
         <tr>
             <td>{props.alumno.uuid}</td>
             <td>{props.alumno.nombre}</td>
-            <td>{props.alumno.apelldidos}</td>
+            <td>{props.alumno.apellidos}</td>
             <td>{props.alumno.direccion}</td>
             <td>{props.alumno.poblacion}</td>
             <td>{props.alumno.codigo_postal}</td>
