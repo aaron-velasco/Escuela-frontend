@@ -5,6 +5,12 @@ function AlumnoCreate() {
   // Obtener id de alumno desde url
   let { id } = useParams();
 
+  const history = useHistory();
+
+  // Checkear si está logeado
+  if(localStorage.getItem('logged_in') !== true)
+    history.push("/");
+
   // Estado
   const [alumnoData, setAlumnoData] = useState({
     uuid: "",
@@ -25,7 +31,6 @@ function AlumnoCreate() {
   });
   const [hasErrors, setHasErrors] = useState(false);
   const [message, setMessage] = useState("");
-  const history = useHistory();
 
   // Guardado de valores de campos en el estado al escribir
   const handleInputChange = (event) => {
@@ -66,8 +71,7 @@ function AlumnoCreate() {
               setHasErrors(true);
               break;
             case 401:
-              localStorage.setItem("api_token", "");
-              localStorage.setItem("logged_in", false);
+              localStorage.clear();
               history.push("/");
               break;
             default:
