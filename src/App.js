@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import AlumnosTable from './pages/AlumnosTable'
 import AlumnoShow from './pages/AlumnoShow'
 import AlumnoCreate from './pages/AlumnoCreate'
+import AlumnoEdit from './pages/AlumnoEdit'
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login"  component={Login} />
           <Route exact path="/alumno/create"  component={AlumnoCreate} />
           <Route exact path="/alumno/:id"     component={AlumnoShow} />
+          <Route exact path="/alumno/:id/edit" component={AlumnoEdit} />
           <Route exact path="/" component={AlumnosTable} />
         </Switch>
       </div>

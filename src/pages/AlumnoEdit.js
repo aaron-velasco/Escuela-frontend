@@ -1,9 +1,19 @@
-import { React, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 function AlumnoCreate() {
+  // Obtener id de alumno desde url
+  let { id } = useParams();
+
+  const history = useHistory();
+
+  // Checkear si está logeado
+  if(localStorage.getItem('logged_in') !== true)
+    history.push("/");
+
   // Estado
   const [alumnoData, setAlumnoData] = useState({
+    uuid: "",
     nombre: "",
     apellidos: "",
     direccion: "",
@@ -21,7 +31,6 @@ function AlumnoCreate() {
   });
   const [hasErrors, setHasErrors] = useState(false);
   const [message, setMessage] = useState("");
-  const history = useHistory();
 
   // Guardado de valores de campos en el estado al escribir
   const handleInputChange = (event) => {
@@ -31,12 +40,24 @@ function AlumnoCreate() {
     });
   };
 
+  // Cargar Alumno al entrar
+  useEffect(() => {
+      setMessage('Cargando alumno')
+      fetch(`${process.env.REACT_APP_API_URL}/alumno?uuid=${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAlumnoData(data)
+        setMessage('')
+      });
+  },[])
+
   // Gestión del envío de la información del formulario a la API
   const handleSubmit = (event) => {
+    setMessage('Enviando petición')
     event.preventDefault();
     console.log("enviando datos..." + JSON.stringify(alumnoData));
     fetch(`${process.env.REACT_APP_API_URL}/alumno`, {
-      method: "post",
+      method: "put",
       body: JSON.stringify(alumnoData),
       headers: {
         "Content-type": "application/json; charset=UTF-8;",
@@ -50,8 +71,7 @@ function AlumnoCreate() {
               setHasErrors(true);
               break;
             case 401:
-              localStorage.setItem("api_token", "");
-              localStorage.setItem("logged_in", false);
+              localStorage.clear();
               history.push("/");
               break;
             default:
@@ -65,7 +85,7 @@ function AlumnoCreate() {
           setFormErrors(data);
           return;
         }
-        setMessage("Alumno creado correctamente");
+        setMessage("Alumno editado correctamente");
         history.push("/");
       })
       .catch((error) => console.log("Error", error));
@@ -80,9 +100,13 @@ function AlumnoCreate() {
             bg-white rounded-lg shadow-md lg:shadow-lg"
         >
           <h2 className="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
-            Creación de alumno
+            Edición de alumno
           </h2>
+          <br/>
+          {message}
+          <br/>
 
+          <p>ID: {alumnoData.uuid}</p>
           <form className="mt-10" onSubmit={handleSubmit}>
             <label
               htmlFor="nombre"
@@ -195,7 +219,6 @@ function AlumnoCreate() {
               onChange={handleInputChange}
             />
 
-            {message}
             <button
               type="submit"
               className="w-full py-3 mt-10 bg-gray-800 rounded-sm
