@@ -1,23 +1,75 @@
-import { React, useState, useEffect } from "react";
-
+import { React, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function AlumnoCreate() {
+  // Estado
+  const [alumnoData, setAlumnoData] = useState({
+    nombre: "",
+    apellidos: "",
+    direccion: "",
+    poblacion: "",
+    codigo_postal: "",
+    curso: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    nombre: [],
+    apellidos: [],
+    direccion: [],
+    poblacion: [],
+    codigo_postal: [],
+    curso: [],
+  });
+  const [hasErrors, setHasErrors] = useState(false);
+  const [message, setMessage] = useState("");
+  const history = useHistory();
 
-  const [alumnoData, setAlumnoData] = useState({nombre : '', apellidos : '', direccion : '', poblacion : '', codigo_postal : '', curso : ''});
-  const [message, setMessage] = useState('');
-
+  // Guardado de valores de campos en el estado al escribir
   const handleInputChange = (event) => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
     setAlumnoData({
-        ...alumnoData,
-        [event.target.name] : event.target.value
-    })
+      ...alumnoData,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const enviarDatos = (event) => {
-
-  }
+  // Gestión del envío de la información del formulario a la API
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("enviando datos..." + JSON.stringify(alumnoData));
+    fetch(`${process.env.REACT_APP_API_URL}/alumno`, {
+      method: "post",
+      body: JSON.stringify(alumnoData),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8;",
+        Authorization: `Bearer ${localStorage.getItem("api_token")}`,
+      },
+    })
+      .then(function (response) {
+        if (!response.ok) {
+          switch (response.status) {
+            case 422:
+              setHasErrors(true);
+              break;
+            case 401:
+              localStorage.setItem("api_token", "");
+              localStorage.setItem("logged_in", false);
+              history.push("/");
+              break;
+            default:
+              break;
+          }
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        if (hasErrors === true) {
+          setFormErrors(data);
+          return;
+        }
+        setMessage("Alumno creado correctamente");
+        history.push("/");
+      })
+      .catch((error) => console.log("Error", error));
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -31,7 +83,7 @@ function AlumnoCreate() {
             Creación de alumno
           </h2>
 
-          <form className="mt-10" onSubmit={enviarDatos}>
+          <form className="mt-10" onSubmit={handleSubmit}>
             <label
               htmlFor="nombre"
               className="block text-xs font-semibold text-gray-600 uppercase"
@@ -49,7 +101,8 @@ function AlumnoCreate() {
               value={alumnoData.nombre}
               onChange={handleInputChange}
             />
-            <br/>
+            <small>{formErrors.nombre}</small>
+            <br />
             <label
               htmlFor="apellidos"
               className="block text-xs font-semibold text-gray-600 uppercase"
@@ -67,7 +120,7 @@ function AlumnoCreate() {
               value={alumnoData.apellidos}
               onChange={handleInputChange}
             />
-            <br/>
+            <br />
             <label
               htmlFor="direccion"
               className="block text-xs font-semibold text-gray-600 uppercase"
@@ -85,14 +138,14 @@ function AlumnoCreate() {
               value={alumnoData.direccion}
               onChange={handleInputChange}
             />
-            <br/>
+            <br />
             <label
               htmlFor="poblacion"
               className="block text-xs font-semibold text-gray-600 uppercase"
             >
               Población
             </label>
-            <br/>
+            <br />
             <input
               id="poblacion"
               type="text"
@@ -104,7 +157,7 @@ function AlumnoCreate() {
               value={alumnoData.poblacion}
               onChange={handleInputChange}
             />
-            <br/>
+            <br />
             <label
               htmlFor="codigo_postal"
               className="block text-xs font-semibold text-gray-600 uppercase"
@@ -122,7 +175,8 @@ function AlumnoCreate() {
               value={alumnoData.codigo_postal}
               onChange={handleInputChange}
             />
-            <br/>
+            <small>{formErrors.codigo_postal}</small>
+            <br />
             <label
               htmlFor="curso"
               className="block text-xs font-semibold text-gray-600 uppercase"
@@ -141,7 +195,6 @@ function AlumnoCreate() {
               onChange={handleInputChange}
             />
 
-            
             {message}
             <button
               type="submit"
