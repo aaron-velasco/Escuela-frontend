@@ -37,13 +37,18 @@ function AlumnoCreate() {
 
   // Cargar Alumno al entrar
   useEffect(() => {
+      setMessage('Cargando alumno')
       fetch(`${process.env.REACT_APP_API_URL}/alumno?uuid=${id}`)
       .then((response) => response.json())
-      .then((data) => setAlumnoData(data));
+      .then((data) => {
+        setAlumnoData(data)
+        setMessage('')
+      });
   },[])
 
   // Gestión del envío de la información del formulario a la API
   const handleSubmit = (event) => {
+    setMessage('Enviando petición')
     event.preventDefault();
     console.log("enviando datos..." + JSON.stringify(alumnoData));
     fetch(`${process.env.REACT_APP_API_URL}/alumno`, {
@@ -93,6 +98,10 @@ function AlumnoCreate() {
           <h2 className="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
             Edición de alumno
           </h2>
+          <br/>
+          {message}
+          <br/>
+
           <p>ID: {alumnoData.uuid}</p>
           <form className="mt-10" onSubmit={handleSubmit}>
             <label
@@ -206,7 +215,6 @@ function AlumnoCreate() {
               onChange={handleInputChange}
             />
 
-            {message}
             <button
               type="submit"
               className="w-full py-3 mt-10 bg-gray-800 rounded-sm
