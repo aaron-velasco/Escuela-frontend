@@ -7,7 +7,7 @@ function Login(props) {
   const [message, setMessage] = useState('');
   const history = useHistory();
   
-  if(localStorage.getItem('logged_in') === true)
+  if(localStorage.getItem('logged_in') === 'true')
     history.push("/");
 
   const handleInputChange = (event) => {
