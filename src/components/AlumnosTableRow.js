@@ -6,7 +6,7 @@ function AlumnosTableRow(props) {
     if(localStorage.getItem('logged_in'))
          edit = <Link to={ `/alumno/edit/${props.alumno.uuid}` } className="text-yellow-600 underline">Editar</Link>
     return (
-        <tr>
+        <tr className="shadow-sm">
             <td className="px-16 py-2">{props.alumno.uuid}</td>
             <td className="px-16 py-2">{props.alumno.nombre}</td>
             <td className="px-16 py-2">{props.alumno.apellidos}</td>

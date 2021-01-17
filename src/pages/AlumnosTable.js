@@ -37,12 +37,12 @@ function AlumnosTable() {
   });
 
   return (
-    <>
+    <div className="bg-white rounded-lg shadow-md lg:shadow-lg h-screen">
       <h1 className="py-12 text-4xl">Listado de alumnos</h1>
         {menuHead}
       <br />
       <table className="mx-auto m-4 w-4/6 table-auto border-collapse border border-green-800">
-        <thead>
+        <thead className="shadow-md">
           <tr>
             <th>UUID</th>
             <th>Nombre</th>
@@ -54,7 +54,7 @@ function AlumnosTable() {
         <tbody>{alumnos}</tbody>
       </table>
       {loading}
-    </>
+    </div>
   );
 }
 
