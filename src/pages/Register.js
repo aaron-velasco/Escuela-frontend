@@ -1,5 +1,4 @@
 import { React, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
 
 function Login(props) {
   const [loginData, setLoginData] = useState({
@@ -16,7 +15,6 @@ function Login(props) {
   });
   const [hasErrors, setHasErrors] = useState(false);
   const [message, setMessage] = useState("");
-  const history = useHistory();
 
   const handleInputChange = (event) => {
     setLoginData({
